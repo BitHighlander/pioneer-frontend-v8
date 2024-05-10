@@ -59,16 +59,20 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={cn('font-sans antialiased', fontSans.variable)}>
-      <ChakraProvider theme={theme}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          <AI><PioneerProvider><Header />{children}<Footer /></PioneerProvider></AI>
+          <AI>
+            <PioneerProvider>
+              <Header />
+              {children}
+              <Footer />
+            </PioneerProvider>
+          </AI>
         </ThemeProvider>
-      </ChakraProvider>
       </body>
     </html>
   )
