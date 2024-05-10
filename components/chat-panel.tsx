@@ -7,6 +7,10 @@ import { Input } from './ui/input'
 import { Button } from './ui/button'
 import { ArrowRight, Plus, Square } from 'lucide-react'
 import { EmptyScreen } from './empty-screen'
+import {ChakraProvider} from "@chakra-ui/react";
+import {Pioneer} from "@coinmasters/pioneer-lib";
+import {usePioneer} from "@coinmasters/pioneer-react";
+import { theme } from '../styles/theme';
 
 export function ChatPanel() {
   const [input, setInput] = useState('')
@@ -93,6 +97,7 @@ export function ChatPanel() {
     >
       <form onSubmit={handleSubmit} className="max-w-2xl w-full px-6">
         <div className="relative flex items-center w-full">
+          <ChakraProvider theme={theme}><Pioneer usePioneer={usePioneer}/></ChakraProvider>
           <Input
             ref={inputRef}
             type="text"
