@@ -123,7 +123,7 @@ export const Copilot: React.FC<CopilotProps> = ({ inquiry }: CopilotProps) => {
         </div>
         <form onSubmit={onFormSubmit}>
           <div className="flex flex-wrap justify-start mb-4">
-            {data?.options?.map((option, index) => (
+            {data?.options?.map((option:any, index:any) => (
               <div
                 key={`option-${index}`}
                 className="flex items-center space-x-1.5 mb-2"

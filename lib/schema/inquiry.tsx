@@ -1,4 +1,5 @@
 import { DeepPartial } from 'ai'
+//@ts-ignore
 import { z } from 'zod'
 
 export const inquirySchema = z.object({
