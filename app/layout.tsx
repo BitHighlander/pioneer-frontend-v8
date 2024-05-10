@@ -2,13 +2,11 @@ import type { Metadata, Viewport } from 'next'
 import { Inter as FontSans } from 'next/font/google'
 import { AI } from './action'
 import './globals.css'
-import { ChakraProvider, useColorMode } from '@chakra-ui/react';
 import { cn } from '@/lib/utils'
 import { ThemeProvider } from '@/components/theme-provider'
 import Header from '@/components/header'
 import Footer from '@/components/footer'
 import { PioneerProvider } from "./pioneer";
-import { theme } from '../styles/theme';
 const fontSans = FontSans({
   subsets: ['latin'],
   variable: '--font-sans'
@@ -40,16 +38,6 @@ export const viewport: Viewport = {
   minimumScale: 1,
   maximumScale: 1
 }
-
-const ForceDarkMode = ({ children }: { children: React.ReactNode }) => {
-  const { setColorMode } = useColorMode();
-
-  useEffect(() => {
-    setColorMode('dark');
-  }, [setColorMode]);
-
-  return <>{children}</>;
-};
 
 export default function RootLayout({
   children
