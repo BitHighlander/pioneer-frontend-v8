@@ -1,5 +1,4 @@
 "use client";
-// src/utils/onStartApp.tsx
 import { usePioneer } from "@coinmasters/pioneer-react";
 import { WalletOption, availableChainsByWallet } from '@coinmasters/types';
 
