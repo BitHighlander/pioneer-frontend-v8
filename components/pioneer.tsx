@@ -12,6 +12,8 @@ import { AI } from '@/app/action'
 import { IconLogo } from './ui/icons'
 import { cn } from '@/lib/utils'
 import { usePioneer } from "@coinmasters/pioneer-react"
+import {ChakraProvider} from "@chakra-ui/react";
+import { theme } from '../styles/theme';
 
 import {
     Basic,
@@ -196,7 +198,7 @@ export const Pioneer: React.FC<CopilotProps> = ({ inquiry }: CopilotProps) => {
                 <form onSubmit={onFormSubmit}>
                     <div className="flex flex-wrap justify-start mb-4">
                         <main className="flex-grow">
-                            {renderComponent()}
+                            <ChakraProvider theme={theme}>{renderComponent()}</ChakraProvider>
                         </main>
                         {/*{data?.options?.map((option:any, index:any) => (*/}
                         {/*    // eslint-disable-next-line react/jsx-key*/}

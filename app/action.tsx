@@ -73,63 +73,63 @@ async function submit(formData?: FormData, skip?: boolean) {
       return
     }
 
-    // // Set the collapsed state to true
-    // isCollapsed.done(true)
-    //
-    // //  Generate the answer
-    // let answer = ''
-    // let toolOutputs = []
-    // let errorOccurred = false
-    // const streamText = createStreamableValue<string>()
-    // uiStream.update(<Spinner />)
-    //
-    // // If useSpecificAPI is enabled, only function calls will be made
-    // // If not using a tool, this model generates the answer
-    // while (
-    //   useSpecificAPI
-    //     ? toolOutputs.length === 0 && answer.length === 0
-    //     : answer.length === 0
-    // ) {
-    //   // Search the web and generate the answer
-    //   const { fullResponse, hasError, toolResponses } = await researcher(
-    //     uiStream,
-    //     streamText,
-    //     messages,
-    //     useSpecificAPI
-    //   )
-    //   answer = fullResponse
-    //   toolOutputs = toolResponses
-    //   errorOccurred = hasError
-    // }
-    //
-    // // If useSpecificAPI is enabled, generate the answer using the specific model
-    // if (useSpecificAPI && answer.length === 0) {
-    //   // modify the messages to be used by the specific model
-    //   const modifiedMessages = messages.map(msg =>
-    //     msg.role === 'tool'
-    //       ? { ...msg, role: 'assistant', content: JSON.stringify(msg.content) }
-    //       : msg
-    //   ) as ExperimentalMessage[]
-    //   answer = await writer(uiStream, streamText, modifiedMessages)
-    // } else {
-    //   streamText.done()
-    // }
-    //
-    // if (!errorOccurred) {
-    //   // Generate related queries
-    //   await querySuggestor(uiStream, messages)
-    //
-    //   // Add follow-up panel
-    //   uiStream.append(
-    //     <Section title="Follow-up">
-    //       <FollowupPanel />
-    //     </Section>
-    //   )
-    // }
-    //
-    // isGenerating.done(false)
-    // uiStream.done()
-    // aiState.done([...aiState.get(), { role: 'assistant', content: answer }])
+    // Set the collapsed state to true
+    isCollapsed.done(true)
+
+    //  Generate the answer
+    let answer = ''
+    let toolOutputs = []
+    let errorOccurred = false
+    const streamText = createStreamableValue<string>()
+    uiStream.update(<Spinner />)
+
+    // If useSpecificAPI is enabled, only function calls will be made
+    // If not using a tool, this model generates the answer
+    while (
+      useSpecificAPI
+        ? toolOutputs.length === 0 && answer.length === 0
+        : answer.length === 0
+    ) {
+      // Search the web and generate the answer
+      const { fullResponse, hasError, toolResponses } = await researcher(
+        uiStream,
+        streamText,
+        messages,
+        useSpecificAPI
+      )
+      answer = fullResponse
+      toolOutputs = toolResponses
+      errorOccurred = hasError
+    }
+
+    // If useSpecificAPI is enabled, generate the answer using the specific model
+    if (useSpecificAPI && answer.length === 0) {
+      // modify the messages to be used by the specific model
+      const modifiedMessages = messages.map(msg =>
+        msg.role === 'tool'
+          ? { ...msg, role: 'assistant', content: JSON.stringify(msg.content) }
+          : msg
+      ) as ExperimentalMessage[]
+      answer = await writer(uiStream, streamText, modifiedMessages)
+    } else {
+      streamText.done()
+    }
+
+    if (!errorOccurred) {
+      // Generate related queries
+      await querySuggestor(uiStream, messages)
+
+      // Add follow-up panel
+      uiStream.append(
+        <Section title="Follow-up">
+          <FollowupPanel />
+        </Section>
+      )
+    }
+
+    isGenerating.done(false)
+    uiStream.done()
+    aiState.done([...aiState.get(), { role: 'assistant', content: answer }])
   }
 
   processEvents()
