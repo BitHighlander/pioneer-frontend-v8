@@ -7,7 +7,7 @@ import { Input } from './ui/input'
 import { Button } from './ui/button'
 import { ArrowRight, Plus, Square } from 'lucide-react'
 import { EmptyScreen } from './empty-screen'
-import {ChakraProvider} from "@chakra-ui/react";
+import {ChakraProvider, useColorMode} from "@chakra-ui/react";
 import {Pioneer} from "@coinmasters/pioneer-lib";
 import {usePioneer} from "@coinmasters/pioneer-react";
 import { theme } from '../styles/theme';
