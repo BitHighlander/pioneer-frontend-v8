@@ -77,12 +77,12 @@ export const Pioneer: React.FC<CopilotProps> = ({ inquiry }: CopilotProps) => {
         setIsButtonDisabled(!(anyCheckboxChecked || query))
     }
 
-    const updatedQuery = () => {
-        const selectedOptions = Object.entries(checkedOptions)
-            .filter(([, checked]) => checked)
-            .map(([option]) => option)
-        return [...selectedOptions, query].filter(Boolean).join(', ')
-    }
+    // const updatedQuery = () => {
+    //     const selectedOptions = Object.entries(checkedOptions)
+    //         .filter(([, checked]) => checked)
+    //         .map(([option]) => option)
+    //     return [...selectedOptions, query].filter(Boolean).join(', ')
+    // }
 
     useEffect(() => {
         checkIfButtonShouldBeEnabled()
@@ -92,7 +92,7 @@ export const Pioneer: React.FC<CopilotProps> = ({ inquiry }: CopilotProps) => {
     useEffect(() => {
         if(data && data?.options && data?.options[0]){
             console.log("Setting Component! ",data.options[0])
-            setIntent(data.options[0].value)
+            setIntent(data?.options[0]?.value || 'none')
             //if params, set params
         }
     }, [data, data?.options])
@@ -116,6 +116,20 @@ export const Pioneer: React.FC<CopilotProps> = ({ inquiry }: CopilotProps) => {
     const handleSkip = (e: React.MouseEvent<HTMLButtonElement>) => {
         onFormSubmit(e as unknown as React.FormEvent<HTMLFormElement>, true)
     }
+
+    //Pioneer
+    const setInputAmount = (amount: any) => {
+        console.log("setInputAmount: ", amount)
+    }
+
+    const onClose = () => {
+        //console.log("onClose")
+    };
+
+    const onSelect = (asset: any) => {
+        //console.log("onSelect: ", asset)
+    }
+    //end
 
     if (error) {
         return (
@@ -177,7 +191,7 @@ export const Pioneer: React.FC<CopilotProps> = ({ inquiry }: CopilotProps) => {
                 <div className="flex items-center space-x-2 flex-1 min-w-0">
                     <IconLogo className="w-4 h-4 flex-shrink-0" />
                     <h5 className="text-muted-foreground text-xs truncate">
-                        {updatedQuery()}
+                        {/*{updatedQuery()}*/}
                     </h5>
                 </div>
                 <Check size={16} className="text-green-500 w-4 h-4" />
