@@ -63,13 +63,13 @@ async function submit(formData?: FormData, skip?: boolean) {
       // const inquiry = await inquire(uiStream, messages)
       // console.log("action: inquiry: ", inquiry)
 
-      // uiStream.done()
-      // isGenerating.done()
-      // isCollapsed.done(false)
-      // aiState.done([
-      //   ...aiState.get(),
-      //   { role: 'assistant', content: `inquiry: ${inquiry?.question}` }
-      // ])
+      uiStream.done()
+      isGenerating.done()
+      isCollapsed.done(false)
+      aiState.done([
+        ...aiState.get(),
+        { role: 'assistant', content: `inquiry: ${inquiry?.question}` }
+      ])
       return
     }
 

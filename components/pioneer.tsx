@@ -11,12 +11,34 @@ import { useActions, useStreamableValue, useUIState } from 'ai/rsc'
 import { AI } from '@/app/action'
 import { IconLogo } from './ui/icons'
 import { cn } from '@/lib/utils'
+import { usePioneer } from "@coinmasters/pioneer-react"
+
+import {
+    Basic,
+    Portfolio,
+    Transfer,
+    Assets,
+    Asset,
+    Amount,
+    Quote,
+    Quotes,
+    Swap,
+    Track,
+    SignTransaction
+} from '@coinmasters/pioneer-lib';
 
 export type CopilotProps = {
     inquiry?: PartialInquiry
 }
 
 export const Pioneer: React.FC<CopilotProps> = ({ inquiry }: CopilotProps) => {
+    const { state } = usePioneer();
+    const { api, app, assets, context } = state;
+    const [intent, setIntent] = useState('basic');
+    const [tabIndex, setTabIndex] = useState(1);
+    const [selectedAsset, setSelectedAsset] = useState({ });
+
+    //Copilot stuff
     const [completed, setCompleted] = useState(false)
     const [query, setQuery] = useState('')
     const [skipped, setSkipped] = useState(false)
@@ -27,7 +49,11 @@ export const Pioneer: React.FC<CopilotProps> = ({ inquiry }: CopilotProps) => {
     const [isButtonDisabled, setIsButtonDisabled] = useState(true)
     const [messages, setMessages] = useUIState<typeof AI>()
     const { submit } = useActions<typeof AI>()
+    //end
 
+
+
+    //Copilot stuff
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setQuery(event.target.value)
         checkIfButtonShouldBeEnabled()
@@ -60,6 +86,14 @@ export const Pioneer: React.FC<CopilotProps> = ({ inquiry }: CopilotProps) => {
         checkIfButtonShouldBeEnabled()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [query])
+
+    useEffect(() => {
+        if(data && data?.options && data?.options[0]){
+            console.log("Setting Component! ",data.options[0])
+            setIntent(data.options[0].value)
+            //if params, set params
+        }
+    }, [data, data?.options])
 
     const onFormSubmit = async (
         e: React.FormEvent<HTMLFormElement>,
@@ -94,6 +128,43 @@ export const Pioneer: React.FC<CopilotProps> = ({ inquiry }: CopilotProps) => {
         )
     }
 
+    //pioneer
+    const renderComponent = () => {
+        // Your switch case logic here, similar to the original
+        switch (intent) {
+            case 'basic':
+                return <Basic usePioneer={usePioneer}/>;
+                break;
+            case 'asset':
+                return <Asset usePioneer={usePioneer} onClose={onClose} onSelect={onSelect} asset={selectedAsset}/>;
+                break;
+            case 'amount':
+                return <Amount usePioneer={usePioneer} onClose={onClose} asset={selectedAsset} setInputAmount={setInputAmount}/>;
+                break;
+            case 'assets':
+                return <Assets usePioneer={usePioneer} onClose={onClose} onSelect={onSelect} filters={{onlyOwned: false, noTokens: false, hasPubkey:true }}/>;
+                break;
+            case 'transfer':
+                return <Transfer usePioneer={usePioneer} />;
+                break;
+            // case 'sign':
+            //   return <SignTransaction usePioneer={usePioneer} setTxHash={setTxHash} onClose={onClose} quote={SAMPLE_DATA[0]}/>;
+            //   break;
+            case 'portfolio':
+                return <Portfolio usePioneer={usePioneer} />;
+                break;
+            // case 'track':
+            //   return <Track txHash={SAMPLE_SWAP_TXID}/>;
+            case 'swap':
+                return <Swap usePioneer={usePioneer}/>;
+                break;
+            // Handle other cases as needed
+            default:
+                return <div></div>;
+        }
+    };
+    //end pioneer
+
     if (skipped) {
         return null
     }
@@ -119,48 +190,19 @@ export const Pioneer: React.FC<CopilotProps> = ({ inquiry }: CopilotProps) => {
                         className={cn('w-4 h-4 flex-shrink-0', { 'animate-spin': pending })}
                     />
                     <p className="text-lg text-foreground text-semibold ml-2">
-                        {data?.question}
+                        {JSON.stringify(data?.question)}
                     </p>
                 </div>
                 <form onSubmit={onFormSubmit}>
                     <div className="flex flex-wrap justify-start mb-4">
-                        {data?.options?.map((option:any, index:any) => (
-                            <div
-                                key={`option-${index}`}
-                                className="flex items-center space-x-1.5 mb-2"
-                            >
-                                <Checkbox
-                                    id={option?.value}
-                                    name={option?.value}
-                                    onCheckedChange={() =>
-                                        handleOptionChange(option?.label as string)
-                                    }
-                                />
-                                <label
-                                    className="text-sm whitespace-nowrap pr-4"
-                                    htmlFor={option?.value}
-                                >
-                                    {option?.label}
-                                </label>
-                            </div>
-                        ))}
+                        <main className="flex-grow">
+                            {renderComponent()}
+                        </main>
+                        {/*{data?.options?.map((option:any, index:any) => (*/}
+                        {/*    // eslint-disable-next-line react/jsx-key*/}
+                        {/*    <div>{JSON.stringify(option)}</div>*/}
+                        {/*))}*/}
                     </div>
-                    {data?.allowsInput && (
-                        <div className="mb-6 flex flex-col space-y-2 text-sm">
-                            <label className="text-muted-foreground" htmlFor="query">
-                                {data?.inputLabel}
-                            </label>
-                            <Input
-                                type="text"
-                                name="additional_query"
-                                className="w-full"
-                                id="query"
-                                placeholder={data?.inputPlaceholder}
-                                value={query}
-                                onChange={handleInputChange}
-                            />
-                        </div>
-                    )}
                     <div className="flex justify-end space-x-2">
                         <Button
                             type="button"
