@@ -12,6 +12,16 @@ import {Pioneer} from "@coinmasters/pioneer-lib";
 import {usePioneer} from "@coinmasters/pioneer-react";
 import { theme } from '../styles/theme';
 
+const ForceDarkMode = ({ children }: { children: React.ReactNode }) => {
+  const { setColorMode } = useColorMode();
+
+  useEffect(() => {
+    setColorMode('dark');
+  }, [setColorMode]);
+
+  return <>{children}</>;
+};
+
 export function ChatPanel() {
   const [input, setInput] = useState('')
   const [messages, setMessages] = useUIState<typeof AI>()
@@ -97,7 +107,7 @@ export function ChatPanel() {
     >
       <form onSubmit={handleSubmit} className="max-w-2xl w-full px-6">
         <div className="relative flex items-center w-full">
-          <ChakraProvider theme={theme}><Pioneer usePioneer={usePioneer}/></ChakraProvider>
+          <ChakraProvider theme={theme}><ForceDarkMode><Pioneer usePioneer={usePioneer}/></ForceDarkMode></ChakraProvider>
           <Input
             ref={inputRef}
             type="text"
