@@ -1,4 +1,5 @@
 export * from './task-manager'
 export * from './inquire'
+export * from './pioneer'
 export * from './query-suggestor'
 export * from './researcher'
