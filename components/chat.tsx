@@ -6,7 +6,7 @@ import { ChatMessages } from './chat-messages'
 import {ChakraProvider, useColorMode} from "@chakra-ui/react";
 import { usePioneer } from "@coinmasters/pioneer-react"
 import { theme } from '../styles/theme';
-import { Landing } from './pioneer/landing';
+import { Index } from './pioneer/index';
 
 export function Chat() {
     const { state } = usePioneer();
@@ -21,7 +21,7 @@ export function Chat() {
               </div>
           ) : (
               <Box display="flex" alignItems="center" justifyContent="center" h="100vh">
-                  <ChakraProvider theme={theme}><Landing /></ChakraProvider>
+                  <ChakraProvider theme={theme}><Index /></ChakraProvider>
               </Box>
           )}
       </div>
