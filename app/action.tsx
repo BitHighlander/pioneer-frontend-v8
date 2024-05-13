@@ -104,16 +104,63 @@ async function submit(formData?: FormData, skip?: boolean) {
 
     // If useSpecificAPI is enabled, generate the answer using the specific model
     if (useSpecificAPI && answer.length === 0) {
+
       // modify the messages to be used by the specific model
-      const modifiedMessages = messages.map(msg =>
-        msg.role === 'tool'
-          ? { ...msg, role: 'assistant', content: JSON.stringify(msg.content) }
-          : msg
-      ) as ExperimentalMessage[]
-      answer = await writer(uiStream, streamText, modifiedMessages)
+      const modifiedMessages = messages.map(msg => {
+        // Ensure that content is a string
+        const contentIsString = typeof msg.content === 'string';
+        return msg.role === 'tool'
+            ? { ...msg, role: 'assistant', content: contentIsString ? msg.content : JSON.stringify(msg.content) }
+            : msg;
+      }) as ExperimentalMessage[];
+
+      // Log the modified messages to verify their format before sending
+      console.log("Modified messages:", JSON.stringify(modifiedMessages, null, 2));
+
+      let modifiedMessagesTest:any = ['Whats up bro']
+
+      try {
+        answer = await writer(uiStream, streamText, modifiedMessagesTest);
+
+      } catch (error) {
+        console.error("Failed to send messages:", error);
+        // Handle error appropriately here
+      }
+
+      // // modify the messages to be used by the specific model
+      // const modifiedMessages = messages.map(msg => {
+      //   // Ensure that content is a string
+      //   const contentIsString = typeof msg.content === 'string';
+      //   return msg.role === 'tool'
+      //       ? { ...msg, role: 'assistant', content: contentIsString ? msg.content : JSON.stringify(msg.content) }
+      //       : msg;
+      // }) as ExperimentalMessage[];
+      //
+      // // Log the modified messages to verify their format before sending
+      // console.log("Modified messages:", JSON.stringify(modifiedMessages, null, 2));
+      //
+      // try {
+      //   answer = await writer(uiStream, streamText, modifiedMessages);
+      // } catch (error) {
+      //   console.error("Failed to send messages:", error);
+      //   // Handle error appropriately here
+      // }
     } else {
-      streamText.done()
+      streamText.done();
     }
+
+    // // If useSpecificAPI is enabled, generate the answer using the specific model
+    // if (useSpecificAPI && answer.length === 0) {
+    //   // modify the messages to be used by the specific model
+    //   const modifiedMessages = messages.map(msg =>
+    //     msg.role === 'tool'
+    //       ? { ...msg, role: 'assistant', content: JSON.stringify(msg.content) }
+    //       : msg
+    //   ) as ExperimentalMessage[]
+    //   answer = await writer(uiStream, streamText, modifiedMessages)
+    // } else {
+    //   streamText.done()
+    // }
 
     if (!errorOccurred) {
       // Generate related queries
