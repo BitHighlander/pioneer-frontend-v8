@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Box, Heading, Text, Image, Stack, Button, Table, Thead, Tr, Th, Tbody, Td } from '@chakra-ui/react';
 import axios from 'axios';
 
-export const Assets = ({ setPage }) => {
+export const Assets = ({ setPage }:any) => {
     const [data, setData] = useState({
         usersOnline: "0",
         info: {
@@ -18,11 +18,7 @@ export const Assets = ({ setPage }) => {
     // Function to fetch data
     const fetchData = async () => {
         try {
-            const response = await axios.get('https://pioneers.dev/api/v1/globals', {
-                headers: {
-                    accept: 'application/json'
-                }
-            });
+            const response = await axios.get('https://pioneers.dev/api/v1/globals');
             setData(response.data);
         } catch (error) {
             console.error('Error fetching data: ', error);
@@ -33,7 +29,7 @@ export const Assets = ({ setPage }) => {
         fetchData();
     }, []);
     useEffect(() => {
-        let timeoutId;  // Declare a variable to store the timeout ID
+        let timeoutId:any;  // Declare a variable to store the timeout ID
 
         const bumpNumbers = () => {
             setData(prevData => ({

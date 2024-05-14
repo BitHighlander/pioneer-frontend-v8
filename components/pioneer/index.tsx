@@ -11,7 +11,7 @@ import { Leaderboard } from './leaderboard';
 
 export function Index() {
     // Function placeholders for button actions
-    const [page, setPage] = useState(null)
+    const [page, setPage] = useState('')
 
     // State for toggling network
     const [useMainnet, setUseMainnet] = useBoolean(false);

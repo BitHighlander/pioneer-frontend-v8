@@ -17,7 +17,7 @@ export function Landing({setPage}:any) {
                     <Box flex="2" p={5}>
                         <Heading mb={4}>Pioneers.dev</Heading>
                         <Text as="cite" fontSize="md" mb={4}>
-                            "Pioneer is a human-assisted AI project designed to chart and track the fast moving blockchain space"
+                            &quot;Pioneer is a human-assisted AI project designed to chart and track the fast moving blockchain space&quot;
                         </Text>
                         <br/>
                         <br/>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Heading, Text, Image, Stack, Button, Table, Thead, Tbody, Tr, Th, Td } from '@chakra-ui/react';
 
-export const Leaderboard = ({ setPage }) => {
+export const Leaderboard = ({ setPage }:any) => {
     return (
         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
             <div style={{ width: '70%' }}>
