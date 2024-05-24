@@ -1,3 +1,4 @@
+'use client'
 import { Box, Button, Heading, Text, VStack, Image, Switch, FormControl, FormLabel, useBoolean, Wrap, WrapItem } from "@chakra-ui/react";
 import { useEffect, useState, useRef } from 'react'
 
