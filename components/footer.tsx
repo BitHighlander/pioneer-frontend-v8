@@ -1,7 +1,12 @@
+'use-client';
 import React from 'react'
 import Link from 'next/link'
 import { SiDiscord, SiGithub, SiTwitter } from 'react-icons/si'
 import { Button } from './ui/button'
+
+import {
+  Pioneer,
+} from '@coinmasters/pioneer-lib';
 
 const Footer: React.FC = () => {
   return (
@@ -35,6 +40,7 @@ const Footer: React.FC = () => {
           </Link>
         </Button>
       </div>
+      {/*<Pioneer></Pioneer>*/}
     </footer>
   )
 }

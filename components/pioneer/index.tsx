@@ -72,7 +72,7 @@ export function Index() {
                         },
                         width: "300px", // Set a specific width or use 'full' for full width
                     }}
-                    onClick={() => window.open(useMainnet ? "https://nouns.build/dao/ethereum/0x25EF864904d67e912B9eC491598A7E5A066B102F" : "https://nouns.build/dao/base/0xd0d31f743d5f7e8fcf4add1bdb198f07241a4f23/2", "_blank")}
+                    onClick={() => window.open(useMainnet ? "https://nouns.build/dao/ethereum/0x25EF864904d67e912B9eC491598A7E5A066B102F" : "https://nouns.build/dao/base/0xd0d31f743d5f7e8fcf4add1bdb198f07241a4f23", "_blank")}
                 >
                     Become a Pioneer
                 </Button>
